@@ -1,0 +1,8 @@
+version: "3"
+services:
+
+  application-to-test:
+    image: ${DOCKER_IMG}
+    command: ${ENTRY_COMMAND}    
+    volumes:
+      - "${WORKSPACE}:/workspace"    
