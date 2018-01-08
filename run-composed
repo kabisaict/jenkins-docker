@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# See https://github.com/kabisaict/jenkins-docker for more information.
+# See https://github.com/kabisa/jenkins-docker for more information.
 #
 # Usage:
 # run-composed [CI command]
@@ -40,13 +40,6 @@ fi
 if [[ -n $SSH_AUTH_SOCK ]]; then
   DOCKER_OPTS="$DOCKER_OPTS -v $SSH_AUTH_SOCK:/tmp/auth.sock -e SSH_AUTH_SOCK=/tmp/auth.sock"
 fi
-
-# Where to store cachable artifacts. Docker containers ran by this script get
-# a /cache directory that's unique to the job and can be used to store any build
-# artifacts that should persist across builds. Think about Ruby gems, the local
-# Java Maven repository etc.
-CACHE_DIR=${CACHE_DIR:-/ci/cache}
-BUILD_CACHE_DIR="$CACHE_DIR/$JOB_NAME"
 
 # Projects that want to use this setup should maintain a Dockerfile in dockerfiles/ci
 # that describes the required build environment.
