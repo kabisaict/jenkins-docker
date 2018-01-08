@@ -16,6 +16,8 @@ function cleanupContainer() {
     if [ "$CONTAINER_RUNNING" = "true" ]; then
       echo "Cleaning up docker container"
 
+      docker-compose down
+
       # In regular workflows this is done automatically, but when the job is aborted
       # and the container is killed this cleanup won't happen, so do it here.
       docker exec $CID chown -R $(id -u `whoami`) /workspace
@@ -31,13 +33,6 @@ function abort() {
 
 if [ $# -ne 1 ]; then
   abort "$0 requires exactly one argument (of bash script)."
-fi
-
-# DOCKER_OPTS is now deprecated in favor of DOCKER_RUN_OPTS.
-# If it is set assign it to DOCKER_RUN_OPTS and print a warning.
-if [ -n "$DOCKER_OPTS" ]; then
-  >&2 echo '$DOCKER_OPTS is deprecated, please use $DOCKER_RUN_OPTS'
-  DOCKER_RUN_OPTS=$DOCKER_OPTS
 fi
 
 # Forward the SSH agent to the Docker container, useful in combination with
